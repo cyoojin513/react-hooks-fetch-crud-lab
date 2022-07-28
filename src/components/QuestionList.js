@@ -1,10 +1,27 @@
 import React from "react";
+import QuestionItem from "./QuestionItem";
 
-function QuestionList() {
+function QuestionList({source, deletingRendered}) {
+
+  function deleteBtn(id) {
+    fetch(`http://localhost:4000/questions/${id}`, {
+      method: "DELETE",
+    }).then(res => res.json())
+      .then(() => deletingRendered(id))
+  }
+
   return (
     <section>
       <h1>Quiz Questions</h1>
-      <ul>{/* display QuestionItem components here after fetching */}</ul>
+      <ul>
+        {source.map((item) =>
+          <QuestionItem
+            key={item.id}
+            question={item}
+            deleteBtn={deleteBtn}
+          />
+        )}
+      </ul>
     </section>
   );
 }
