@@ -1,13 +1,22 @@
 import React from "react";
 import QuestionItem from "./QuestionItem";
 
-function QuestionList({source, deletingRendered}) {
+function QuestionList({source, deletingRendered, updatingRender}) {
 
   function deleteBtn(id) {
     fetch(`http://localhost:4000/questions/${id}`, {
       method: "DELETE",
     }).then(res => res.json())
       .then(() => deletingRendered(id))
+  }
+
+  function updateAnswer(id, updatedIndex) {
+    fetch(`http://localhost:4000/questions/${id}`, {
+      method: "PATCH",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(updatedIndex)
+    }).then(res => res.json())
+      .then(updatedItem => updatingRender(updatedItem))
   }
 
   return (
@@ -19,6 +28,7 @@ function QuestionList({source, deletingRendered}) {
             key={item.id}
             question={item}
             deleteBtn={deleteBtn}
+            updateAnswer={updateAnswer}
           />
         )}
       </ul>

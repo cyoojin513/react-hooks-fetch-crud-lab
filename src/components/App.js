@@ -23,6 +23,14 @@ function App() {
     setSource(filteredList)
   }
 
+  function updatingRender(updatedItem) {
+    const updatingSource = source.map((item) => {
+      if(item.id === updatedItem.id) {
+        return updatedItem
+      } else {return item}})
+    setSource(updatingSource)
+  }
+
   return (
     <main>
       <AdminNavBar onChangePage={setPage} />
@@ -31,6 +39,7 @@ function App() {
         : <QuestionList
             source={source}
             deletingRendered={deletingRendered}
+            updatingRender={updatingRender}
           />
       }
     </main>
